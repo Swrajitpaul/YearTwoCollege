@@ -1,0 +1,55 @@
+import java.util.StringTokenizer;
+public class Database {
+	public static String[] freshProduce= new String[100];
+    public static int count =0;
+	
+	public Database(String filename){
+		readFromFile(filename);
+	}
+	
+	public static void readFromFile(String myFile){
+		 TextFileInput data = new TextFileInput(myFile);
+		 int arrCounter = 0;
+		 StringTokenizer token;
+		 for(int i=0; i<100; i++){
+			 String line = data.readLine();
+			 if (line == null){
+		    	 break;
+		     }
+			 token= new StringTokenizer(line, ",");
+		     while (token.hasMoreTokens()){
+		    	 ProduceItem produce = new ProduceItem(token.nextToken(), token.nextToken(), token.nextToken());
+		    	 freshProduce[arrCounter]= produce.returnString();
+		    	 arrCounter +=1;
+		    	 count++;
+		     }
+		     
+		 }
+	 }
+	
+	public String getName(String num){
+		String name= " ";
+		for(int i=0; i<count; i++){
+			StringTokenizer line = new StringTokenizer(freshProduce[i]," ");
+			if(num.equalsIgnoreCase(line.nextToken())){
+				name = String.valueOf(line.nextToken());	
+				break;
+			}
+		}
+		return name;
+	}
+	
+	public Float getPrice(String num){
+		Float price = null;
+		for(int i=0; i < count; i++){
+			StringTokenizer st = new StringTokenizer(freshProduce[i], " ");
+			if(num.equalsIgnoreCase(st.nextToken())){
+				st.nextToken();
+				price = Float.valueOf(String.valueOf(st.nextToken()));
+				break;
+			}
+		}
+		return price;
+		
+	}
+}
